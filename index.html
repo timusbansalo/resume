@@ -17,7 +17,7 @@
         }
         /* Style for skill/tech tags */
         .tag {
-            @apply inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mr-2 mb-2;
+            @apply inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mr-2 mb-2 cursor-pointer; /* Added cursor-pointer */
         }
         /* Custom scrollbar for better aesthetics */
         ::-webkit-scrollbar {
@@ -34,12 +34,109 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+
+        /* Style for details/summary to make it look like a clickable title */
+        details {
+            border-left: 4px solid #3b82f6; /* Blue border matching existing style */
+            padding-left: 1rem; /* Equivalent to pl-4 */
+            padding-top: 0.5rem; /* Equivalent to py-2 */
+            padding-bottom: 0.5rem; /* Equivalent to py-2 */
+            margin-bottom: 1rem; /* Equivalent to mb-4 */
+            background-color: #ffffff; /* White background for the details content */
+            border-radius: 0.5rem; /* Rounded corners */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Shadow matching existing style */
+        }
+
+        summary {
+            font-weight: 600; /* Semibold */
+            color: #1f2937; /* Darker gray for summary text */
+            cursor: pointer;
+            outline: none; /* Remove outline on click */
+            padding-bottom: 0.5rem; /* Space between summary and content */
+            display: block; /* Ensures summary takes full width for click area */
+        }
+
+        summary::-webkit-details-marker {
+            display: none; /* Hide default triangle marker */
+        }
+
+        summary::before {
+            content: '▶'; /* Custom right-pointing triangle */
+            margin-right: 0.5rem;
+            display: inline-block;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        details[open] > summary::before {
+            content: '▼'; /* Down-pointing triangle when open */
+            transform: rotate(0deg);
+        }
+
+        /* Adjust padding for content inside details to align with summary */
+        details > p, details > ul {
+            padding-left: 1.5rem; /* Indent content slightly */
+        }
+
+        /* Styles for the pop-up modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            max-width: 90%;
+            width: 500px; /* Fixed width for larger screens */
+            max-height: 80vh; /* Max height for scrollable content */
+            overflow-y: auto; /* Enable scrolling for long content */
+            position: relative;
+            transform: translateY(20px); /* Initial slight offset for animation */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280; /* text-gray-500 */
+            transition: color 0.2s;
+        }
+
+        .modal-close-button:hover {
+            color: #1f2937; /* text-gray-800 */
+        }
     </style>
 </head>
 <body class="antialiased p-4 sm:p-6 md:p-8 lg:p-10">
 
     <!-- Main container for the resume -->
-    <!-- Changed max-w-4xl to max-w-7xl to allow the page to use more width -->
     <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-xl overflow-hidden">
 
         <!-- Header Section -->
@@ -63,10 +160,10 @@
         <section class="p-6 sm:p-8 md:p-10 border-b border-gray-200">
             <h2 class="text-2xl sm:text-3xl font-semibold text-gray-800 mb-4">About Me</h2>
             <p class="text-gray-700 leading-relaxed">
-                A highly motivated and results-oriented professional with X years of experience in [Your Industry/Field].
-                Passionate about [Your interests, e.g., developing innovative solutions, leading high-performing teams,
-                solving complex problems]. Proven ability to [mention a key skill, e.g., deliver impactful projects
-                on time and within budget]. Seeking to leverage expertise in [specific area] to contribute to a dynamic organization.
+                A highly motivated and results-oriented professional with **[X]** years of experience in **[Your Industry/Field, e.g., Software Engineering, Program Management in Tech]**.
+                Passionate about **[Your interests, e.g., developing innovative solutions, leading high-performing teams,
+                solving complex problems in hardware/firmware integration]**. Proven ability to **[mention a key skill, e.g., deliver impactful projects
+                on time and within budget, drive cross-functional quality improvements, lead complex product validations]**. Seeking to leverage expertise in **[specific area, e.g., platform validation, security features, team leadership]** to contribute to a dynamic organization.
             </p>
         </section>
 
@@ -108,7 +205,10 @@
 
             <!-- Company 1: Intel (Current Role) -->
             <div class="mb-8 p-6 bg-gray-50 rounded-lg shadow-sm border border-gray-100">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Intel, USA</h3>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">
+                    <img src="https://placehold.co/24x24/0071C5/FFFFFF?text=I" alt="Intel Logo" class="w-6 h-6 rounded-full mr-2 inline-block align-middle">
+                    Intel, USA
+                </h3>
                 <p class="text-md sm:text-lg font-medium text-gray-600 mb-2">Engineering Manager/Program Management | Oregon, USA</p>
                 <p class="text-sm text-gray-500 mb-4">July 2023 – Present</p>
 
@@ -141,37 +241,37 @@
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">Overall Company Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">Program Management</span>
-                                <span class="tag">Engineering Management</span>
-                                <span class="tag">Global Team Leadership</span>
-                                <span class="tag">Stakeholder Management</span>
-                                <span class="tag">Telemetry & Logging</span>
-                                <span class="tag">Firmware/Driver Quality</span>
-                                <span class="tag">OEM Partnership</span>
-                                <span class="tag">Customer Escape Analysis</span>
+                                <span class="tag" data-skill-id="program-management-intel-current">Program Management</span>
+                                <span class="tag" data-skill-id="engineering-management-intel-current">Engineering Management</span>
+                                <span class="tag" data-skill-id="global-team-leadership-intel-current">Global Team Leadership</span>
+                                <span class="tag" data-skill-id="stakeholder-management-intel-current">Stakeholder Management</span>
+                                <span class="tag" data-skill-id="telemetry-logging-intel-current">Telemetry & Logging</span>
+                                <span class="tag" data-skill-id="firmware-driver-quality-intel-current">Firmware/Driver Quality</span>
+                                <span class="tag" data-skill-id="oem-partnership-intel-current">OEM Partnership</span>
+                                <span class="tag" data-skill-id="customer-escape-analysis-intel-current">Customer Escape Analysis</span>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">Telemetry Project Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">Project Ideation</span>
-                                <span class="tag">Resource Allocation</span>
-                                <span class="tag">Team Building</span>
-                                <span class="tag">Data Aggregation</span>
-                                <span class="tag">Real-world Insights</span>
-                                <span class="tag">Defect Reduction</span>
+                                <span class="tag" data-skill-id="project-ideation-telemetry">Project Ideation</span>
+                                <span class="tag" data-skill-id="resource-allocation-telemetry">Resource Allocation</span>
+                                <span class="tag" data-skill-id="team-building-telemetry">Team Building</span>
+                                <span class="tag" data-skill-id="data-aggregation-telemetry">Data Aggregation</span>
+                                <span class="tag" data-skill-id="real-world-insights-telemetry">Real-world Insights</span>
+                                <span class="tag" data-skill-id="defect-reduction-telemetry">Defect Reduction</span>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">OEM Validation Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">Beta Testing</span>
-                                <span class="tag">Lab Validation</span>
-                                <span class="tag">Risk Mitigation</span>
-                                <span class="tag">Co-validation Workshops</span>
-                                <span class="tag">Platform Releases</span>
+                                <span class="tag" data-skill-id="beta-testing-oem">Beta Testing</span>
+                                <span class="tag" data-skill-id="lab-validation-oem">Lab Validation</span>
+                                <span class="tag" data-skill-id="risk-mitigation-oem">Risk Mitigation</span>
+                                <span class="tag" data-skill-id="co-validation-workshops-oem">Co-validation Workshops</span>
+                                <span class="tag" data-skill-id="platform-releases-oem">Platform Releases</span>
                             </div>
                         </div>
                     </div>
@@ -181,8 +281,8 @@
                         <h4 class="text-lg font-semibold text-gray-700 mb-3">Project Details & Achievements:</h4>
 
                         <!-- Project 1.1 Details: Telemetry Collection -->
-                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
-                            <h5 class="text-md font-semibold text-gray-800 mb-1">Telemetry Collection & Quality Improvement</h5>
+                        <details>
+                            <summary>Telemetry Collection & Quality Improvement</summary>
                             <p class="text-gray-700 text-sm mb-2">
                                 **Description:** Spearheaded the Telemetry collection project from ideation to implementation, securing vital resources from Intel VPs. Built and led a 23-member global team (Program Managers, Developers, Data Analysts) to architect, develop, and operate telemetry & logging across 6 geos, aggregating data from Intel platforms.
                             </p>
@@ -199,11 +299,11 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </details>
 
                         <!-- Project 1.2 Details: OEM Validation & Collaboration -->
-                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
-                            <h5 class="text-md font-semibold text-gray-800 mb-1">OEM Design Validation & Partnership</h5>
+                        <details>
+                            <summary>OEM Design Validation & Partnership</summary>
                             <p class="text-gray-700 text-sm mb-2">
                                 **Description:** Owned Beta testing and lab validation of OEM designs (Dell, Lenovo, HP, and Microsoft) for all major platform releases. Collaborated weekly with OEMs to de-risk the release of the Intel stack on their platforms.
                             </p>
@@ -222,14 +322,17 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </details>
                     </div>
                 </div>
             </div>
 
             <!-- Company 2: Intel (Previous Role) -->
             <div class="mb-8 p-6 bg-gray-50 rounded-lg shadow-sm border border-gray-100">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Intel, USA</h3>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">
+                    <img src="https://placehold.co/24x24/0071C5/FFFFFF?text=I" alt="Intel Logo" class="w-6 h-6 rounded-full mr-2 inline-block align-middle">
+                    Intel, USA
+                </h3>
                 <p class="text-md sm:text-lg font-medium text-gray-600 mb-2">Engineering Manager/Program Management (Platform team) | Oregon, USA</p>
                 <p class="text-sm text-gray-500 mb-4">January 2021 – July 2023</p>
 
@@ -255,50 +358,47 @@
                     <!-- Left Panel: Skills for Company 2 and its projects -->
                     <div class="md:w-1/3 p-4 bg-white rounded-lg shadow-sm border border-gray-100 mb-6 md:mb-0">
                         <h4 class="text-lg font-semibold text-gray-700 mb-3">Skills & Technologies Used:</h4>
-                        <div class="mb-4">
-                            <h5 class="text-md font-semibold text-gray-600 mb-2">Overall Company Skills:</h5>
-                            <div class="flex flex-wrap">
-                                <span class="tag">Engineering Management</span>
-                                <span class="tag">Program Management</span>
-                                <span class="tag">Hybrid Compute Architecture</span>
-                                <span class="tag">CPU/GPU/NPU Optimization</span>
-                                <span class="tag">Cross-Stack Performance Analysis</span>
-                                <span class="tag">Firmware/OS Integration</span>
-                                <span class="tag">System Validation</span>
-                                <span class="tag">Debug Skill Development</span>
-                            </div>
+                        <div class="flex flex-wrap">
+                            <span class="tag" data-skill-id="engineering-management-intel-prev">Engineering Management</span>
+                            <span class="tag" data-skill-id="program-management-intel-prev">Program Management</span>
+                            <span class="tag" data-skill-id="hybrid-compute-architecture-intel-prev">Hybrid Compute Architecture</span>
+                            <span class="tag" data-skill-id="cpu-gpu-npu-optimization-intel-prev">CPU/GPU/NPU Optimization</span>
+                            <span class="tag" data-skill-id="cross-stack-performance-analysis-intel-prev">Cross-Stack Performance Analysis</span>
+                            <span class="tag" data-skill-id="firmware-os-integration-intel-prev">Firmware/OS Integration</span>
+                            <span class="tag" data-skill-id="system-validation-intel-prev">System Validation</span>
+                            <span class="tag" data-skill-id="debug-skill-development-intel-prev">Debug Skill Development</span>
                         </div>
 
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">Hybrid Compute Project Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">Big.Little CPU Architecture</span>
-                                <span class="tag">Hardware Guided Scheduling (HGS/HGS+)</span>
-                                <span class="tag">Microsoft Thread Director</span>
-                                <span class="tag">Pcode/Microcode Optimization</span>
-                                <span class="tag">HWP</span>
-                                <span class="tag">Windows Thread Director</span>
-                                <span class="tag">PPM Subsystems</span>
-                                <span class="tag">Performance Tuning</span>
-                                <span class="tag">Power Reduction</span>
+                                <span class="tag" data-skill-id="big-little-cpu-architecture">Big.Little CPU Architecture</span>
+                                <span class="tag" data-skill-id="hgs-hgs-plus">Hardware Guided Scheduling (HGS/HGS+)</span>
+                                <span class="tag" data-skill-id="microsoft-thread-director">Microsoft Thread Director</span>
+                                <span class="tag" data-skill-id="pcode-microcode-optimization">Pcode/Microcode Optimization</span>
+                                <span class="tag" data-skill-id="hwp">HWP</span>
+                                <span class="tag" data-skill-id="windows-thread-director">Windows Thread Director</span>
+                                <span class="tag" data-skill-id="ppm-subsystems">PPM Subsystems</span>
+                                <span class="tag" data-skill-id="performance-tuning-hybrid">Performance Tuning</span>
+                                <span class="tag" data-skill-id="power-reduction-hybrid">Power Reduction</span>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">System Validation Project Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">Requirement Analysis</span>
-                                <span class="tag">Validation Plan Creation</span>
-                                <span class="tag">System Integration</span>
-                                <span class="tag">Debugging</span>
-                                <span class="tag">Security Subsystems</span>
-                                <span class="tag">Storage</span>
-                                <span class="tag">Camera</span>
-                                <span class="tag">Memory</span>
-                                <span class="tag">Windows OS Software Stack</span>
-                                <span class="tag">Driver/Firmware Quality</span>
-                                <span class="tag">Memory-mapped IO</span>
-                                <span class="tag">Interrupt Handling</span>
+                                <span class="tag" data-skill-id="requirement-analysis-sysval">Requirement Analysis</span>
+                                <span class="tag" data-skill-id="validation-plan-creation-sysval">Validation Plan Creation</span>
+                                <span class="tag" data-skill-id="system-integration-sysval">System Integration</span>
+                                <span class="tag" data-skill-id="debugging-sysval">Debugging</span>
+                                <span class="tag" data-skill-id="security-subsystems-sysval">Security Subsystems</span>
+                                <span class="tag" data-skill-id="storage-sysval">Storage</span>
+                                <span class="tag" data-skill-id="camera-sysval">Camera</span>
+                                <span class="tag" data-skill-id="memory-sysval">Memory</span>
+                                <span class="tag" data-skill-id="windows-os-software-stack">Windows OS Software Stack</span>
+                                <span class="tag" data-skill-id="driver-firmware-quality">Driver/Firmware Quality</span>
+                                <span class="tag" data-skill-id="memory-mapped-io">Memory-mapped IO</span>
+                                <span class="tag" data-skill-id="interrupt-handling">Interrupt Handling</span>
                             </div>
                         </div>
                     </div>
@@ -308,8 +408,8 @@
                         <h4 class="text-lg font-semibold text-gray-700 mb-3">Project Details & Achievements:</h4>
 
                         <!-- Project 2.1 Details: Hybrid Compute Validation & Optimization -->
-                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
-                            <h5 class="text-md font-semibold text-gray-800 mb-1">Hybrid Compute Validation & Performance Optimization</h5>
+                        <details>
+                            <summary>Hybrid Compute Validation & Performance Optimization</summary>
                             <p class="text-gray-700 text-sm mb-2">
                                 **Description:** Built and led Intel’s Hybrid Compute validation team, enabling the company’s strategic transition to Big.Little (hybrid) CPU architecture. Led the enablement of Hardware Guided Scheduling (HGS/HGS+), partnering with Microsoft to integrate Thread Director technology. Directed end-to-end cross-stack performance analysis across CPU architecture, firmware, and OS layers.
                             </p>
@@ -328,11 +428,11 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </details>
 
                         <!-- Project 2.2 Details: System Validation & Quality Improvement -->
-                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
-                            <h5 class="text-md font-semibold text-gray-800 mb-1">System Validation & Cross-Functional Quality Initiatives</h5>
+                        <details>
+                            <summary>System Validation & Cross-Functional Quality Initiatives</summary>
                             <p class="text-gray-700 text-sm mb-2">
                                 **Description:** Managed a high-impact team of 8 engineers responsible for driving program from requirement analysis, validation plan creation, system integration, validation, and debugging across critical subsystems (Security, Storage, NPU/AI, Camera, Memory, GPU). Led system validation across compute platforms, involving CPU, GPU, and AI/NPU accelerators.
                             </p>
@@ -351,14 +451,17 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </details>
                     </div>
                 </div>
             </div>
 
             <!-- Company 3: Intel Corporation, Bangalore, India -->
             <div class="mb-8 p-6 bg-gray-50 rounded-lg shadow-sm border border-gray-100">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Intel Corporation, Bangalore, India</h3>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">
+                    <img src="https://placehold.co/24x24/0071C5/FFFFFF?text=I" alt="Intel Logo" class="w-6 h-6 rounded-full mr-2 inline-block align-middle">
+                    Intel Corporation, Bangalore, India
+                </h3>
                 <p class="text-md sm:text-lg font-medium text-gray-600 mb-2">Program Manager | Bangalore, India</p>
                 <p class="text-sm text-gray-500 mb-4">May 2016 – January 2021</p>
 
@@ -387,42 +490,42 @@
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">Overall Company Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">Program Management</span>
-                                <span class="tag">Security Features</span>
-                                <span class="tag">Manageability Features</span>
-                                <span class="tag">Validation Capabilities</span>
-                                <span class="tag">Team Leadership</span>
-                                <span class="tag">Test Automation</span>
-                                <span class="tag">Cross-stack Quality</span>
+                                <span class="tag" data-skill-id="program-management-intel-india">Program Management</span>
+                                <span class="tag" data-skill-id="security-features-intel-india">Security Features</span>
+                                <span class="tag" data-skill-id="manageability-features-intel-india">Manageability Features</span>
+                                <span class="tag" data-skill-id="validation-capabilities-intel-india">Validation Capabilities</span>
+                                <span class="tag" data-skill-id="team-leadership-intel-india">Team Leadership</span>
+                                <span class="tag" data-skill-id="test-automation-intel-india">Test Automation</span>
+                                <span class="tag" data-skill-id="cross-stack-quality-intel-india">Cross-stack Quality</span>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">vPro Security & Manageability Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">Intel vPro</span>
-                                <span class="tag">Hardware Shield (TXT, BIOS Guard, Boot Guard)</span>
-                                <span class="tag">Microsoft Secured-core PC (System Guard, VBS, Credential Guard, Secure Launch)</span>
-                                <span class="tag">Firmware Development</span>
-                                <span class="tag">Windows Drivers</span>
-                                <span class="tag">Intel ACM</span>
-                                <span class="tag">BIOS</span>
-                                <span class="tag">Pcode</span>
-                                <span class="tag">ME Firmware (CSME)</span>
-                                <span class="tag">Security Engine</span>
-                                <span class="tag">CSMF Compliance</span>
+                                <span class="tag" data-skill-id="intel-vpro">Intel vPro</span>
+                                <span class="tag" data-skill-id="hardware-shield">Hardware Shield (TXT, BIOS Guard, Boot Guard)</span>
+                                <span class="tag" data-skill-id="microsoft-secured-core-pc">Microsoft Secured-core PC (System Guard, VBS, Credential Guard, Secure Launch)</span>
+                                <span class="tag" data-skill-id="firmware-development-vpro">Firmware Development</span>
+                                <span class="tag" data-skill-id="windows-drivers-vpro">Windows Drivers</span>
+                                <span class="tag" data-skill-id="intel-acm">Intel ACM</span>
+                                <span class="tag" data-skill-id="bios">BIOS</span>
+                                <span class="tag" data-skill-id="pcode-vpro">Pcode</span>
+                                <span class="tag" data-skill-id="me-firmware-csme">ME Firmware (CSME)</span>
+                                <span class="tag" data-skill-id="security-engine">Security Engine</span>
+                                <span class="tag" data-skill-id="csmf-compliance">CSMF Compliance</span>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">Validation & Automation Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">End-to-End Validation</span>
-                                <span class="tag">Integration</span>
-                                <span class="tag">Automated Regression Pipelines</span>
-                                <span class="tag">Early Integration Checks</span>
-                                <span class="tag">Cross-team Debug</span>
-                                <span class="tag">Fault Isolation</span>
+                                <span class="tag" data-skill-id="end-to-end-validation-vpro">End-to-End Validation</span>
+                                <span class="tag" data-skill-id="integration-vpro">Integration</span>
+                                <span class="tag" data-skill-id="automated-regression-pipelines">Automated Regression Pipelines</span>
+                                <span class="tag" data-skill-id="early-integration-checks">Early Integration Checks</span>
+                                <span class="tag" data-skill-id="cross-team-debug-vpro">Cross-team Debug</span>
+                                <span class="tag" data-skill-id="fault-isolation-vpro">Fault Isolation</span>
                             </div>
                         </div>
                     </div>
@@ -432,8 +535,8 @@
                         <h4 class="text-lg font-semibold text-gray-700 mb-3">Project Details & Achievements:</h4>
 
                         <!-- Project 3.1 Details: vPro Security & Manageability -->
-                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
-                            <h5 class="text-md font-semibold text-gray-800 mb-1">Intel vPro Security & Manageability Integration</h5>
+                        <details>
+                            <summary>Intel vPro Security & Manageability Integration</summary>
                             <p class="text-gray-700 text-sm mb-2">
                                 **Description:** Led the integration and validation of Security and Manageability features for Intel vPro brand of products. Spearheaded end-to-end validation and integration of Intel vPro® platform security and manageability technologies across multiple generations of Intel Client PC platforms.
                             </p>
@@ -452,11 +555,11 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </details>
 
                         <!-- Project 3.2 Details: Quality Improvements & Automation -->
-                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
-                            <h5 class="text-md font-semibold text-gray-800 mb-1">Cross-Stack Quality Improvements & Validation Automation</h5>
+                        <details>
+                            <summary>Cross-Stack Quality Improvements & Validation Automation</summary>
                             <p class="text-gray-700 text-sm mb-2">
                                 **Description:** Drove cross-stack quality improvements by optimizing validation flows for Intel ACM, BIOS, Pcode, ME firmware (CSME), Security Engine, and ensured compliance with Intel Converged Security Management Framework (CSMF) requirements.
                             </p>
@@ -472,14 +575,17 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </details>
                     </div>
                 </div>
             </div>
 
             <!-- Company 4: NetApp India -->
             <div class="mb-8 p-6 bg-gray-50 rounded-lg shadow-sm border border-gray-100">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">NetApp India</h3>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">
+                    <img src="https://placehold.co/24x24/DC2626/FFFFFF?text=N" alt="NetApp Logo" class="w-6 h-6 rounded-full mr-2 inline-block align-middle">
+                    NetApp India
+                </h3>
                 <p class="text-md sm:text-lg font-medium text-gray-600 mb-2">Engineering Architect | Bangalore, India</p>
                 <p class="text-sm text-gray-500 mb-4">March 2013 – May 2016</p>
 
@@ -508,29 +614,29 @@
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">Overall Company Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">Engineering Leadership</span>
-                                <span class="tag">Storage Solutions Validation</span>
-                                <span class="tag">ONTAP Products</span>
-                                <span class="tag">Protocol Compliance (NFS, CIFS)</span>
-                                <span class="tag">Linux</span>
-                                <span class="tag">Unix</span>
-                                <span class="tag">Solaris</span>
-                                <span class="tag">Windows</span>
+                                <span class="tag" data-skill-id="engineering-leadership-netapp">Engineering Leadership</span>
+                                <span class="tag" data-skill-id="storage-solutions-validation-netapp">Storage Solutions Validation</span>
+                                <span class="tag" data-skill-id="ontap-products">ONTAP Products</span>
+                                <span class="tag" data-skill-id="protocol-compliance">Protocol Compliance (NFS, CIFS)</span>
+                                <span class="tag" data-skill-id="linux-netapp">Linux</span>
+                                <span class="tag" data-skill-id="unix-netapp">Unix</span>
+                                <span class="tag" data-skill-id="solaris-netapp">Solaris</span>
+                                <span class="tag" data-skill-id="windows-netapp">Windows</span>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">Storage Validation & Optimization Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">Server-grade System Validation</span>
-                                <span class="tag">Multi-node Systems</span>
-                                <span class="tag">Performance Tuning</span>
-                                <span class="tag">Cluster Storage Configuration</span>
-                                <span class="tag">Server Deployment Standardization</span>
-                                <span class="tag">Test Automation</span>
-                                <span class="tag">Customer Engagement</span>
-                                <span class="tag">Hotfix Validation</span>
-                                <span class="tag">Issue Resolution</span>
+                                <span class="tag" data-skill-id="server-grade-system-validation">Server-grade System Validation</span>
+                                <span class="tag" data-skill-id="multi-node-systems">Multi-node Systems</span>
+                                <span class="tag" data-skill-id="performance-tuning-netapp">Performance Tuning</span>
+                                <span class="tag" data-skill-id="cluster-storage-configuration">Cluster Storage Configuration</span>
+                                <span class="tag" data-skill-id="server-deployment-standardization">Server Deployment Standardization</span>
+                                <span class="tag" data-skill-id="test-automation-netapp">Test Automation</span>
+                                <span class="tag" data-skill-id="customer-engagement-netapp">Customer Engagement</span>
+                                <span class="tag" data-skill-id="hotfix-validation">Hotfix Validation</span>
+                                <span class="tag" data-skill-id="issue-resolution-netapp">Issue Resolution</span>
                             </div>
                         </div>
                     </div>
@@ -540,8 +646,8 @@
                         <h4 class="text-lg font-semibold text-gray-700 mb-3">Project Details & Achievements:</h4>
 
                         <!-- Project 4.1 Details: Storage Solutions Validation & Optimization -->
-                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
-                            <h5 class="text-md font-semibold text-gray-800 mb-1">NetApp Storage Solutions Validation & Optimization</h5>
+                        <details>
+                            <summary>NetApp Storage Solutions Validation & Optimization</summary>
                             <p class="text-gray-700 text-sm mb-2">
                                 **Description:** Led a 16-member engineering team in validating NetApp Storage Solutions, focusing on ONTAP products and protocol compliance (NFS, CIFS) across Linux, Unix, Solaris, and Windows platforms. Contributed to server-grade, multi-node system validation, including performance tuning.
                             </p>
@@ -559,15 +665,18 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </details>
                     </div>
                 </div>
             </div>
 
             <!-- Company 5: EMC2 -->
             <div class="mb-8 p-6 bg-gray-50 rounded-lg shadow-sm border border-gray-100">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">EMC2</h3>
-                <p class="text-md sm:text-lg font-medium text-gray-600 mb-2">Principal Architect | Location (e.g., Bangalore, India)</p>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">
+                    <img src="https://placehold.co/24x24/22C55E/FFFFFF?text=E" alt="EMC2 Logo" class="w-6 h-6 rounded-full mr-2 inline-block align-middle">
+                    EMC2
+                </h3>
+                <p class="text-md sm:text-lg font-medium text-gray-600 mb-2">Principal Architect | Bangalore, India</p>
                 <p class="text-sm text-gray-500 mb-4">October 2011 – March 2013</p>
 
                 <!-- Optional: Video for Company 5 (Spans full width) -->
@@ -595,23 +704,23 @@
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">Overall Company Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">Principal Architect</span>
-                                <span class="tag">Data Loss Prevention (DLP)</span>
-                                <span class="tag">Security Products</span>
-                                <span class="tag">Process Excellence</span>
-                                <span class="tag">Automation Initiatives</span>
+                                <span class="tag" data-skill-id="principal-architect-emc2">Principal Architect</span>
+                                <span class="tag" data-skill-id="data-loss-prevention-emc2">Data Loss Prevention (DLP)</span>
+                                <span class="tag" data-skill-id="security-products-emc2">Security Products</span>
+                                <span class="tag" data-skill-id="process-excellence-emc2">Process Excellence</span>
+                                <span class="tag" data-skill-id="automation-initiatives-emc2">Automation Initiatives</span>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">RSA DLP Project Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">End-to-End Validation</span>
-                                <span class="tag">Market Release</span>
-                                <span class="tag">Data at Rest</span>
-                                <span class="tag">Data in Use</span>
-                                <span class="tag">Data in Motion</span>
-                                <span class="tag">Quality Enhancement</span>
+                                <span class="tag" data-skill-id="end-to-end-validation-rsa">End-to-End Validation</span>
+                                <span class="tag" data-skill-id="market-release-rsa">Market Release</span>
+                                <span class="tag" data-skill-id="data-at-rest">Data at Rest</span>
+                                <span class="tag" data-skill-id="data-in-use">Data in Use</span>
+                                <span class="tag" data-skill-id="data-in-motion">Data in Motion</span>
+                                <span class="tag" data-skill-id="quality-enhancement-rsa">Quality Enhancement</span>
                             </div>
                         </div>
                     </div>
@@ -621,8 +730,8 @@
                         <h4 class="text-lg font-semibold text-gray-700 mb-3">Project Details & Achievements:</h4>
 
                         <!-- Project 5.1 Details: RSA Data Loss Prevention (DLP) -->
-                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
-                            <h5 class="text-md font-semibold text-gray-800 mb-1">RSA Data Loss Prevention (DLP) Product Suite Release</h5>
+                        <details>
+                            <summary>RSA Data Loss Prevention (DLP) Product Suite Release</summary>
                             <p class="text-gray-700 text-sm mb-2">
                                 **Description:** Led end-to-end validation and successful market release of the full RSA Data Loss Prevention (DLP) product suite, covering Data at Rest, Data in Use, and Data in Motion.
                             </p>
@@ -641,14 +750,17 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </details>
                     </div>
                 </div>
             </div>
 
             <!-- Company 6: Motorola India -->
             <div class="mb-8 p-6 bg-gray-50 rounded-lg shadow-sm border border-gray-100">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Motorola India</h3>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">
+                    <img src="https://placehold.co/24x24/F97316/FFFFFF?text=M" alt="Motorola Logo" class="w-6 h-6 rounded-full mr-2 inline-block align-middle">
+                    Motorola India
+                </h3>
                 <p class="text-md sm:text-lg font-medium text-gray-600 mb-2">Engineering Lead | Bangalore, India</p>
                 <p class="text-sm text-gray-500 mb-4">August 2004 – April 2008</p>
 
@@ -677,23 +789,23 @@
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">Overall Company Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">Engineering Leadership</span>
-                                <span class="tag">Cross-Regional Team Management</span>
-                                <span class="tag">Mobile Device Development</span>
-                                <span class="tag">Validation & Release</span>
+                                <span class="tag" data-skill-id="engineering-leadership-motorola">Engineering Leadership</span>
+                                <span class="tag" data-skill-id="cross-regional-team-management">Cross-Regional Team Management</span>
+                                <span class="tag" data-skill-id="mobile-device-development">Mobile Device Development</span>
+                                <span class="tag" data-skill-id="validation-release-motorola">Validation & Release</span>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <h5 class="text-md font-semibold text-gray-600 mb-2">Motorola v2000 Project Skills:</h5>
                             <div class="flex flex-wrap">
-                                <span class="tag">2G Network Stack</span>
-                                <span class="tag">GSM</span>
-                                <span class="tag">CDMA</span>
-                                <span class="tag">Multimedia Development</span>
-                                <span class="tag">Video Telephony</span>
-                                <span class="tag">Adobe Engine</span>
-                                <span class="tag">Customer Engagement</span>
+                                <span class="tag" data-skill-id="2g-network-stack">2G Network Stack</span>
+                                <span class="tag" data-skill-id="gsm">GSM</span>
+                                <span class="tag" data-skill-id="cdma">CDMA</span>
+                                <span class="tag" data-skill-id="multimedia-development">Multimedia Development</span>
+                                <span class="tag" data-skill-id="video-telephony">Video Telephony</span>
+                                <span class="tag" data-skill-id="adobe-engine">Adobe Engine</span>
+                                <span class="tag" data-skill-id="customer-engagement-motorola">Customer Engagement</span>
                             </div>
                         </div>
                     </div>
@@ -703,8 +815,8 @@
                         <h4 class="text-lg font-semibold text-gray-700 mb-3">Project Details & Achievements:</h4>
 
                         <!-- Project 6.1 Details: Motorola v2000 Mobile Device Development -->
-                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
-                            <h5 class="text-md font-semibold text-gray-800 mb-1">Motorola v2000 Mobile Device Development & Release</h5>
+                        <details>
+                            <summary>Motorola v2000 Mobile Device Development & Release</summary>
                             <p class="text-gray-700 text-sm mb-2">
                                 **Description:** Led cross-regional teams in China, Singapore, and Japan for the development, validation, and release of Motorola’s v2000 mobile device.
                             </p>
@@ -721,7 +833,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </details>
                     </div>
                 </div>
             </div>
@@ -760,5 +872,520 @@
 
     </div>
 
+    <!-- The Modal Pop-up Structure -->
+    <div id="skillModalOverlay" class="modal-overlay">
+        <div class="modal-content">
+            <button id="closeModalButton" class="modal-close-button">&times;</button>
+            <h3 id="modalSkillTitle" class="text-xl font-semibold text-gray-800 mb-3"></h3>
+            <p id="modalSkillDescription" class="text-gray-700 text-base leading-relaxed"></p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for handling skill pop-ups
+        document.addEventListener('DOMContentLoaded', function() {
+            const skillTags = document.querySelectorAll('.tag[data-skill-id]');
+            const modalOverlay = document.getElementById('skillModalOverlay');
+            const closeModalButton = document.getElementById('closeModalButton');
+            const modalSkillTitle = document.getElementById('modalSkillTitle');
+            const modalSkillDescription = document.getElementById('modalSkillDescription');
+
+            // Define skill explanations (YOU CAN EDIT THESE!)
+            const skillExplanations = {
+                // Intel, USA (Current Role)
+                'program-management-intel-current': {
+                    title: 'Program Management',
+                    description: 'Managed complex cross-functional programs from ideation to delivery, ensuring alignment with strategic goals and efficient resource utilization. This involved defining roadmaps, tracking progress, and mitigating risks across multiple teams and geographies.'
+                },
+                'engineering-management-intel-current': {
+                    title: 'Engineering Management',
+                    description: 'Led and mentored engineering teams, fostering a culture of innovation and high performance. Focused on technical excellence, career development, and efficient project execution within the engineering domain.'
+                },
+                'global-team-leadership-intel-current': {
+                    title: 'Global Team Leadership',
+                    description: 'Successfully managed and motivated diverse, geographically dispersed teams (e.g., 23 members across 6 geos), ensuring cohesive collaboration and consistent delivery of objectives.'
+                },
+                'stakeholder-management-intel-current': {
+                    title: 'Stakeholder Management',
+                    description: 'Effectively communicated and collaborated with various stakeholders, including Intel VPs, OEM partners (Dell, Lenovo, HP, Microsoft), and engineering heads, to align on goals and drive joint initiatives.'
+                },
+                'telemetry-logging-intel-current': {
+                    title: 'Telemetry & Logging',
+                    description: 'Architected, developed, and operated robust systems for collecting and analyzing telemetry and logging data from diverse Intel platforms, providing critical insights for product improvement.'
+                },
+                'firmware-driver-quality-intel-current': {
+                    title: 'Firmware/Driver Quality',
+                    description: 'Drove initiatives to enhance the quality of firmware and drivers based on real-world data, leading to significant reductions in defects and validation costs.'
+                },
+                'oem-partnership-intel-current': {
+                    title: 'OEM Partnership',
+                    description: 'Cultivated strong relationships with Original Equipment Manufacturers (OEMs) like Dell, Lenovo, HP, and Microsoft, collaborating on co-validation and ensuring seamless integration of Intel technologies into their platforms.'
+                },
+                'customer-escape-analysis-intel-current': {
+                    title: 'Customer Escape Analysis',
+                    description: 'Led workgroups focused on analyzing customer-reported issues (escapes) to identify root causes, enhance validation coverage, and prevent future occurrences, directly improving customer satisfaction.'
+                },
+                'project-ideation-telemetry': {
+                    title: 'Project Ideation',
+                    description: 'Initiated and championed new projects from the conceptual stage, developing clear proposals and securing executive buy-in and resources to move them into implementation.'
+                },
+                'resource-allocation-telemetry': {
+                    title: 'Resource Allocation',
+                    description: 'Strategically allocated human and financial resources to maximize project efficiency and achieve desired outcomes, including securing VP-level resourcing for critical initiatives.'
+                },
+                'team-building-telemetry': {
+                    title: 'Team Building',
+                    description: 'Built and scaled high-performing teams from the ground up, including hiring and onboarding talent, and fostering a collaborative and productive work environment.'
+                },
+                'data-aggregation-telemetry': {
+                    title: 'Data Aggregation',
+                    description: 'Implemented systems and processes to collect and consolidate large volumes of data from various sources, preparing it for analysis and insight generation.'
+                },
+                'real-world-insights-telemetry': {
+                    title: 'Real-world Insights',
+                    description: 'Translated complex data into actionable real-world insights, directly influencing product development, quality improvements, and strategic decision-making.'
+                },
+                'defect-reduction-telemetry': {
+                    title: 'Defect Reduction',
+                    description: 'Implemented strategies and processes that significantly reduced firmware and driver defects, leading to improved product stability and reduced validation costs.'
+                },
+                'beta-testing-oem': {
+                    title: 'Beta Testing',
+                    description: 'Managed and executed beta testing programs for new product designs with key OEM partners, gathering early feedback and identifying potential issues before mass production.'
+                },
+                'lab-validation-oem': {
+                    title: 'Lab Validation',
+                    description: 'Oversaw rigorous lab validation processes for OEM designs, ensuring compliance with specifications and identifying performance or stability issues in controlled environments.'
+                },
+                'risk-mitigation-oem': {
+                    title: 'Risk Mitigation',
+                    description: 'Proactively identified and addressed potential risks in platform releases with OEMs, implementing strategies to de-risk launches and ensure smooth product deployment.'
+                },
+                'co-validation-workshops-oem': {
+                    title: 'Co-validation Workshops',
+                    description: 'Organized and led collaborative workshops with OEM partners to facilitate joint validation efforts, accelerating product enablement and improving overall quality.'
+                },
+                'platform-releases-oem': {
+                    title: 'Platform Releases',
+                    description: 'Managed the validation and readiness of Intel stack releases for integration into major OEM platforms, ensuring timely and high-quality product launches.'
+                },
+
+                // Intel, USA (Previous Role)
+                'engineering-management-intel-prev': {
+                    title: 'Engineering Management',
+                    description: 'Led and scaled engineering teams focused on complex platform validation and optimization, driving technical strategy and operational excellence.'
+                },
+                'program-management-intel-prev': {
+                    title: 'Program Management',
+                    description: 'Directed cross-functional programs for strategic technology transitions, coordinating efforts across hardware, firmware, and software teams to achieve critical milestones.'
+                },
+                'hybrid-compute-architecture-intel-prev': {
+                    title: 'Hybrid Compute Architecture',
+                    description: 'Deep expertise in validating and optimizing systems utilizing hybrid CPU architectures (e.g., Big.Little), focusing on performance, power, and thread scheduling.'
+                },
+                'cpu-gpu-npu-optimization-intel-prev': {
+                    title: 'CPU/GPU/NPU Optimization',
+                    description: 'Drove significant performance gains and power reductions by optimizing CPU, GPU, and NPU subsystems through cross-stack analysis and targeted improvements.'
+                },
+                'cross-stack-performance-analysis-intel-prev': {
+                    title: 'Cross-Stack Performance Analysis',
+                    description: 'Conducted comprehensive performance analysis across multiple layers (CPU architecture, firmware, OS) to identify bottlenecks and implement optimizations for system-wide improvements.'
+                },
+                'firmware-os-integration-intel-prev': {
+                    title: 'Firmware/OS Integration',
+                    description: 'Managed the seamless integration and validation of firmware and operating system components, ensuring robust and performant software stacks for client platforms.'
+                },
+                'system-validation-intel-prev': {
+                    title: 'System Validation',
+                    description: 'Led end-to-end system validation across complex compute platforms, encompassing CPU, GPU, AI/NPU accelerators, and critical subsystems like security and memory.'
+                },
+                'debug-skill-development-intel-prev': {
+                    title: 'Debug Skill Development',
+                    description: 'Initiated and led organizational programs to enhance debug capabilities, resulting in faster issue resolution and improved team efficiency in complex problem-solving.'
+                },
+                'big-little-cpu-architecture': {
+                    title: 'Big.Little CPU Architecture',
+                    description: 'Specialized in the validation and optimization of heterogeneous CPU architectures, ensuring efficient task distribution and resource utilization for optimal performance and power.'
+                },
+                'hgs-hgs-plus': {
+                    title: 'Hardware Guided Scheduling (HGS/HGS+)',
+                    description: 'Led the implementation and validation of advanced hardware-guided scheduling technologies, collaborating with OS partners for optimal thread management.'
+                },
+                'microsoft-thread-director': {
+                    title: 'Microsoft Thread Director',
+                    description: 'Partnered with Microsoft to integrate and optimize Thread Director technology, enabling intelligent thread scheduling on hybrid CPU architectures for improved responsiveness.'
+                },
+                'pcode-microcode-optimization': {
+                    title: 'Pcode/Microcode Optimization',
+                    description: 'Drove critical optimizations in platform microcode and Pcode, enhancing fundamental CPU operations and performance characteristics.'
+                },
+                'hwp': {
+                    title: 'HWP (Hardware P-states)',
+                    description: 'Expertise in Hardware P-states implementation and validation, enabling dynamic frequency and voltage scaling for power efficiency and performance on Intel platforms.'
+                },
+                'windows-thread-director': {
+                    title: 'Windows Thread Director',
+                    description: 'Focused on the integration and validation of Windows Thread Director, ensuring efficient task assignment to appropriate CPU cores for optimized workload execution.'
+                },
+                'ppm-subsystems': {
+                    title: 'PPM (Power and Performance Management) Subsystems',
+                    description: 'Managed the validation and optimization of Power and Performance Management subsystems, crucial for achieving target power consumption and performance levels.'
+                },
+                'performance-tuning-hybrid': {
+                    title: 'Performance Tuning',
+                    description: 'Applied advanced techniques to fine-tune system performance across various workloads, achieving significant gains in responsiveness and processing speed.'
+                },
+                'power-reduction-hybrid': {
+                    title: 'Power Reduction',
+                    description: 'Implemented strategies and optimizations that led to substantial reductions in platform power consumption, extending battery life and improving thermal management.'
+                },
+                'requirement-analysis-sysval': {
+                    title: 'Requirement Analysis',
+                    description: 'Conducted in-depth analysis of product requirements to translate them into comprehensive validation plans and test cases, ensuring full feature coverage.'
+                },
+                'validation-plan-creation-sysval': {
+                    title: 'Validation Plan Creation',
+                    description: 'Developed detailed validation plans outlining test strategies, methodologies, and resource requirements for complex system components and features.'
+                },
+                'system-integration-sysval': {
+                    title: 'System Integration',
+                    description: 'Managed the integration of various hardware and software components into cohesive system solutions, ensuring compatibility and functional correctness.'
+                },
+                'debugging-sysval': {
+                    title: 'Debugging',
+                    description: 'Proficient in advanced debugging techniques and tools to diagnose and resolve complex issues across hardware, firmware, and software layers, significantly reducing triage time.'
+                },
+                'security-subsystems-sysval': {
+                    title: 'Security Subsystems',
+                    description: 'Validated and optimized security-related subsystems, ensuring robust protection against vulnerabilities and compliance with industry standards.'
+                },
+                'storage-sysval': {
+                    title: 'Storage',
+                    description: 'Expertise in validation and optimization of storage subsystems, ensuring data integrity, performance, and reliability across various storage technologies.'
+                },
+                'camera-sysval': {
+                    title: 'Camera',
+                    description: 'Validated and optimized camera subsystems on platforms, focusing on image quality, performance, and integration with the overall system software stack.'
+                },
+                'memory-sysval': {
+                    title: 'Memory',
+                    description: 'Managed the validation and optimization of memory subsystems, ensuring stability, performance, and compatibility with various memory technologies.'
+                },
+                'windows-os-software-stack': {
+                    title: 'Windows OS Software Stack',
+                    description: 'Delivered and validated comprehensive Windows OS software stacks, including drivers and firmware, ensuring full functionality and stability for major OEM platforms.'
+                },
+                'driver-firmware-quality': {
+                    title: 'Driver/Firmware Quality',
+                    description: 'Implemented processes and partnerships to improve the upstream quality and efficiency of drivers and firmware, leading to reduced regressions and defect noise.'
+                },
+                'memory-mapped-io': {
+                    title: 'Memory-mapped IO',
+                    description: 'Optimized platform-level features related to memory-mapped I/O, enhancing the efficiency of data transfer between hardware components and software.'
+                },
+                'interrupt-handling': {
+                    title: 'Interrupt Handling',
+                    description: 'Expertise in optimizing interrupt handling mechanisms to improve system responsiveness and efficiency, particularly in performance-critical subsystems.'
+                },
+
+                // Intel Corporation, Bangalore, India
+                'program-management-intel-india': {
+                    title: 'Program Management',
+                    description: 'Led strategic programs for integrating and validating critical product features, managing cross-functional teams and deliverables to achieve market release.'
+                },
+                'security-features-intel-india': {
+                    title: 'Security Features',
+                    description: 'Specialized in the integration and validation of advanced security features for client platforms, ensuring robust protection and compliance.'
+                },
+                'manageability-features-intel-india': {
+                    title: 'Manageability Features',
+                    description: 'Expertise in validating and integrating manageability features, enabling remote management and maintenance capabilities for enterprise products.'
+                },
+                'validation-capabilities-intel-india': {
+                    title: 'Validation Capabilities',
+                    description: 'Built and scaled new validation capabilities from the ground up, including establishing teams, processes, and infrastructure to support evolving product requirements.'
+                },
+                'team-leadership-intel-india': {
+                    title: 'Team Leadership',
+                    description: 'Hired, onboarded, and led high-performing engineering teams, fostering a collaborative environment and driving technical excellence in validation.'
+                },
+                'test-automation-intel-india': {
+                    title: 'Test Automation',
+                    description: 'Drove the implementation and optimization of test automation frameworks and pipelines, significantly accelerating validation cycles and improving test coverage.'
+                },
+                'cross-stack-quality-intel-india': {
+                    title: 'Cross-stack Quality',
+                    description: 'Focused on improving quality across the entire software and hardware stack by optimizing validation flows and implementing best practices for early issue detection.'
+                },
+                'intel-vpro': {
+                    title: 'Intel vPro',
+                    description: 'Extensive experience with Intel vPro technology, focusing on its security and manageability features and their integration into client PC platforms.'
+                },
+                'hardware-shield': {
+                    title: 'Intel® Hardware Shield',
+                    description: 'Validated and delivered features related to Intel Hardware Shield, including Trusted Execution Technology (TXT), BIOS Guard, and Boot Guard, for enhanced platform security.'
+                },
+                'microsoft-secured-core-pc': {
+                    title: 'Microsoft Secured-core PC',
+                    description: 'Implemented and validated Microsoft Secured-core PC capabilities (Level 3), such as System Guard, Virtualization-based Security (VBS), Credential Guard, and Secure Launch.'
+                },
+                'firmware-development-vpro': {
+                    title: 'Firmware Development',
+                    description: 'Contributed to the development and delivery of production-grade firmware supporting advanced platform features and security technologies.'
+                },
+                'windows-drivers-vpro': {
+                    title: 'Windows Drivers',
+                    description: 'Developed and validated Windows drivers essential for enabling advanced platform features and ensuring compatibility with various hardware components.'
+                },
+                'intel-acm': {
+                    title: 'Intel ACM (Authenticated Code Modules)',
+                    description: 'Optimized validation flows for Intel Authenticated Code Modules, critical for secure boot and platform integrity.'
+                },
+                'bios': {
+                    title: 'BIOS',
+                    description: 'Expertise in BIOS validation and optimization, ensuring proper system initialization, hardware configuration, and security features.'
+                },
+                'pcode-vpro': {
+                    title: 'Pcode',
+                    description: 'Drove quality improvements related to Pcode (Platform Code), which is essential for low-level platform operations and power management.'
+                },
+                'me-firmware-csme': {
+                    title: 'ME Firmware (CSME)',
+                    description: 'Validated and optimized Management Engine (ME) firmware, specifically Intel Converged Security and Management Engine (CSME), crucial for platform security and manageability.'
+                },
+                'security-engine': {
+                    title: 'Security Engine',
+                    description: 'Focused on the validation and compliance of the platform\'s security engine, ensuring robust cryptographic operations and secure execution environments.'
+                },
+                'csmf-compliance': {
+                    title: 'CSMF Compliance',
+                    description: 'Ensured compliance with Intel Converged Security Management Framework (CSMF) requirements, critical for integrated security solutions across Intel platforms.'
+                },
+                'end-to-end-validation-vpro': {
+                    title: 'End-to-End Validation',
+                    description: 'Managed comprehensive validation cycles covering all aspects of product functionality, performance, and security from development to market release.'
+                },
+                'integration-vpro': {
+                    title: 'Integration',
+                    description: 'Led the integration of complex software and hardware components, resolving compatibility issues and ensuring seamless operation within the platform.'
+                },
+                'automated-regression-pipelines': {
+                    title: 'Automated Regression Pipelines',
+                    description: 'Designed and implemented automated regression testing pipelines, significantly reducing validation cycle time and improving the efficiency of defect detection.'
+                },
+                'early-integration-checks': {
+                    title: 'Early Integration Checks',
+                    description: 'Introduced and enforced early integration checks in the development lifecycle to identify and resolve issues proactively, minimizing downstream costs and delays.'
+                },
+                'cross-team-debug-vpro': {
+                    title: 'Cross-team Debug',
+                    description: 'Fostered and led collaborative debug efforts across multiple engineering teams to efficiently diagnose and resolve complex, cross-component issues.'
+                },
+                'fault-isolation-vpro': {
+                    title: 'Fault Isolation',
+                    description: 'Developed and implemented strategies for efficient fault isolation, rapidly identifying the root cause of defects and accelerating the debug process.'
+                },
+
+                // NetApp India
+                'engineering-leadership-netapp': {
+                    title: 'Engineering Leadership',
+                    description: 'Led and guided engineering teams in the validation of complex storage solutions, fostering technical expertise and driving project success.'
+                },
+                'storage-solutions-validation-netapp': {
+                    title: 'Storage Solutions Validation',
+                    description: 'Specialized in comprehensive validation of enterprise-grade storage solutions, ensuring reliability, performance, and data integrity.'
+                },
+                'ontap-products': {
+                    title: 'ONTAP Products',
+                    description: 'Extensive experience with NetApp ONTAP products, including validation of their core functionalities and performance characteristics.'
+                },
+                'protocol-compliance': {
+                    title: 'Protocol Compliance (NFS, CIFS)',
+                    description: 'Ensured strict compliance with network protocols like NFS (Network File System) and CIFS (Common Internet File System) during storage solution validation.'
+                },
+                'linux-netapp': {
+                    title: 'Linux',
+                    description: 'Validated storage solutions across Linux operating system environments, ensuring compatibility and optimal performance.'
+                },
+                'unix-netapp': {
+                    title: 'Unix',
+                    description: 'Expertise in validating storage solutions on Unix-based platforms, ensuring robust and reliable operation.'
+                },
+                'solaris-netapp': {
+                    title: 'Solaris',
+                    description: 'Validated NetApp storage solutions specifically for Solaris operating systems, addressing unique compatibility and performance requirements.'
+                },
+                'windows-netapp': {
+                    title: 'Windows',
+                    description: 'Ensured seamless integration and optimal performance of storage solutions within Windows server environments.'
+                },
+                'server-grade-system-validation': {
+                    title: 'Server-grade System Validation',
+                    description: 'Conducted rigorous validation of server-grade, multi-node storage systems, focusing on stability, scalability, and performance under heavy loads.'
+                },
+                'multi-node-systems': {
+                    title: 'Multi-node Systems',
+                    description: 'Validated the functionality and performance of complex multi-node storage systems, ensuring data consistency and high availability across distributed architectures.'
+                },
+                'performance-tuning-netapp': {
+                    title: 'Performance Tuning',
+                    description: 'Optimized storage system performance through configuration adjustments, software enhancements, and hardware fine-tuning to meet stringent throughput and latency requirements.'
+                },
+                'cluster-storage-configuration': {
+                    title: 'Cluster Storage Configuration',
+                    description: 'Managed and optimized the configuration of clustered storage environments, ensuring efficient data access, load balancing, and fault tolerance.'
+                },
+                'server-deployment-standardization': {
+                    title: 'Server Deployment Standardization',
+                    description: 'Developed and implemented standardized server deployment practices across the organization, improving efficiency, consistency, and reducing errors in setup.'
+                },
+                'test-automation-netapp': {
+                    title: 'Test Automation',
+                    description: 'Drove the creation and implementation of automated test suites for storage validation, significantly accelerating testing cycles and increasing coverage.'
+                },
+                'customer-engagement-netapp': {
+                    title: 'Customer Engagement',
+                    description: 'Directly interacted with customers to understand their needs, provide technical support, and ensure timely resolution of critical issues and hotfix validation.'
+                },
+                'hotfix-validation': {
+                    title: 'Hotfix Validation',
+                    description: 'Performed rapid validation of critical hotfixes and patches to ensure stability and functionality before deployment to customer environments.'
+                },
+                'issue-resolution-netapp': {
+                    title: 'Issue Resolution',
+                    description: 'Led efforts to diagnose and resolve complex technical issues reported by customers, collaborating with development teams to deliver effective solutions.'
+                },
+
+                // EMC2
+                'principal-architect-emc2': {
+                    title: 'Principal Architect',
+                    description: 'Provided senior-level architectural guidance and technical leadership for the development and validation of enterprise security products.'
+                },
+                'data-loss-prevention-emc2': {
+                    title: 'Data Loss Prevention (DLP)',
+                    description: 'Led the end-to-end validation and successful market release of comprehensive Data Loss Prevention (DLP) product suites, covering data across various states.'
+                },
+                'security-products-emc2': {
+                    title: 'Security Products',
+                    description: 'Deep expertise in the validation and market release of enterprise security products, ensuring their effectiveness and robustness against evolving threats.'
+                },
+                'process-excellence-emc2': {
+                    title: 'Process Excellence',
+                    description: 'Championed and implemented initiatives to optimize validation processes, leading to significant improvements in efficiency, quality, and time-to-market.'
+                },
+                'automation-initiatives-emc2': {
+                    title: 'Automation Initiatives',
+                    description: 'Drove strategic automation efforts across the validation organization, leveraging tools and methodologies to enhance testing capabilities and reduce manual effort.'
+                },
+                'end-to-end-validation-rsa': {
+                    title: 'End-to-End Validation',
+                    description: 'Managed the complete validation lifecycle for complex software products, from initial testing to final market release, ensuring comprehensive quality assurance.'
+                },
+                'market-release-rsa': {
+                    title: 'Market Release',
+                    description: 'Successfully orchestrated the validation and readiness for market release of major product suites, ensuring all quality and performance criteria were met.'
+                },
+                'data-at-rest': {
+                    title: 'Data at Rest',
+                    description: 'Validated DLP functionalities for data stored on various systems (e.g., databases, file shares), ensuring sensitive information was protected even when not in use.'
+                },
+                'data-in-use': {
+                    title: 'Data in Use',
+                    description: 'Ensured DLP effectiveness for data actively being used or processed (e.g., in applications, memory), preventing unauthorized access or leakage during operation.'
+                },
+                'data-in-motion': {
+                    title: 'Data in Motion',
+                    description: 'Validated DLP capabilities for data being transmitted across networks (e.g., email, web traffic), ensuring secure communication and preventing exfiltration.'
+                },
+                'quality-enhancement-rsa': {
+                    title: 'Quality Enhancement',
+                    description: 'Implemented strategies and initiatives that significantly enhanced the quality of security products, leading to improved reliability and customer trust.'
+                },
+
+                // Motorola India
+                'engineering-leadership-motorola': {
+                    title: 'Engineering Leadership',
+                    description: 'Provided technical and strategic leadership to engineering teams for the development and release of mobile communication devices.'
+                },
+                'cross-regional-team-management': {
+                    title: 'Cross-Regional Team Management',
+                    description: 'Successfully led and coordinated engineering teams located in different geographical regions (China, Singapore, Japan), ensuring synchronized development and delivery.'
+                },
+                'mobile-device-development': {
+                    title: 'Mobile Device Development',
+                    description: 'Extensive experience in the full lifecycle development of mobile devices, from feature definition to validation and market release.'
+                },
+                'validation-release-motorola': {
+                    title: 'Validation & Release',
+                    description: 'Oversaw the comprehensive validation and successful market release of mobile devices, ensuring high quality and performance standards were met.'
+                },
+                '2g-network-stack': {
+                    title: '2G Network Stack',
+                    description: 'Developed and delivered key features within the 2G network stack for mobile devices, ensuring robust and reliable cellular connectivity.'
+                },
+                'gsm': {
+                    title: 'GSM',
+                    description: 'Expertise in GSM (Global System for Mobile Communications) technology, including feature implementation and validation for mobile devices.'
+                },
+                'cdma': {
+                    title: 'CDMA',
+                    description: 'Developed and validated features for CDMA (Code Division Multiple Access) network compatibility in mobile devices.'
+                },
+                'multimedia-development': {
+                    title: 'Multimedia Development',
+                    description: 'Contributed to the development of multimedia features for mobile devices, including audio, video, and imaging capabilities.'
+                },
+                'video-telephony': {
+                    title: 'Video Telephony',
+                    description: 'Developed and validated video telephony features, enabling real-time video communication on mobile devices.'
+                },
+                'adobe-engine': {
+                    title: 'Adobe Engine',
+                    description: 'Integrated and optimized the Adobe engine within mobile devices, enabling rich multimedia content rendering and application functionality.'
+                },
+                'customer-engagement-motorola': {
+                    title: 'Customer Engagement',
+                    description: 'Engaged directly with strategic customers (e.g., NTT DOCOMO) to understand requirements, address feedback, and ensure product alignment with market needs.'
+                }
+            };
+
+            // Function to open the modal
+            function openModal(skillId) {
+                const skillInfo = skillExplanations[skillId];
+                if (skillInfo) {
+                    modalSkillTitle.textContent = skillInfo.title;
+                    modalSkillDescription.textContent = skillInfo.description;
+                    modalOverlay.classList.add('open');
+                } else {
+                    modalSkillTitle.textContent = 'Skill Not Defined';
+                    modalSkillDescription.textContent = 'No detailed explanation available for this skill yet. Please add content to the `skillExplanations` object in the JavaScript.';
+                    modalOverlay.classList.add('open');
+                }
+            }
+
+            // Function to close the modal
+            function closeModal() {
+                modalOverlay.classList.remove('open');
+            }
+
+            // Add click event listeners to all skill tags
+            skillTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const skillId = this.dataset.skillId;
+                    openModal(skillId);
+                });
+            });
+
+            // Add event listener to close button
+            closeModalButton.addEventListener('click', closeModal);
+
+            // Close modal when clicking outside the content
+            modalOverlay.addEventListener('click', function(event) {
+                if (event.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
