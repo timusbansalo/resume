@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Resume</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the Inter font */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+            color: #374151; /* Dark gray text */
+        }
+        /* Style for skill/tech tags */
+        .tag {
+            @apply inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mr-2 mb-2;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="antialiased p-4 sm:p-6 md:p-8 lg:p-10">
+
+    <!-- Main container for the resume -->
+    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-xl overflow-hidden">
+
+        <!-- Header Section -->
+        <header class="bg-gradient-to-r from-blue-600 to-purple-700 text-white p-6 sm:p-8 md:p-10 rounded-t-xl">
+            <div class="text-center">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">Your Name Here</h1>
+                <p class="text-lg sm:text-xl font-light mb-4">Your Professional Title | e.g., Senior Software Engineer</p>
+                <div class="flex flex-wrap justify-center gap-x-4 text-sm sm:text-base">
+                    <a href="mailto:your.email@example.com" class="hover:underline">your.email@example.com</a>
+                    <span>|</span>
+                    <a href="tel:+1234567890" class="hover:underline">(123) 456-7890</a>
+                    <span>|</span>
+                    <a href="https://linkedin.com/in/yourprofile" target="_blank" class="hover:underline">LinkedIn</a>
+                    <span>|</span>
+                    <a href="https://github.com/yourusername" target="_blank" class="hover:underline">GitHub</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- About Me / Summary Section -->
+        <section class="p-6 sm:p-8 md:p-10 border-b border-gray-200">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-gray-800 mb-4">About Me</h2>
+            <p class="text-gray-700 leading-relaxed">
+                A highly motivated and results-oriented professional with X years of experience in [Your Industry/Field].
+                Passionate about [Your interests, e.g., developing innovative solutions, leading high-performing teams,
+                solving complex problems]. Proven ability to [mention a key skill, e.g., deliver impactful projects
+                on time and within budget]. Seeking to leverage expertise in [specific area] to contribute to a dynamic organization.
+            </p>
+        </section>
+
+        <!-- Skills Section (Overall) -->
+        <section class="p-6 sm:p-8 md:p-10 border-b border-gray-200">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-gray-800 mb-6">Skills</h2>
+
+            <!-- Technical Skills Sub-section -->
+            <div class="mb-6">
+                <h3 class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4">Technical Skills</h3>
+
+                <div class="mb-4">
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Programming Languages:</h4>
+                    <div class="flex flex-wrap">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">Java</span>
+                        <span class="tag">C++</span>
+                        <span class="tag">Go</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Frameworks & Libraries:</h4>
+                    <div class="flex flex-wrap">
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Django</span>
+                        <span class="tag">Spring Boot</span>
+                        <span class="tag">Tailwind CSS</span>
+                        <span class="tag">Vue.js</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Databases:</h4>
+                    <div class="flex flex-wrap">
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">SQL Server</span>
+                        <span class="tag">Redis</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Cloud Platforms:</h4>
+                    <div class="flex flex-wrap">
+                        <span class="tag">AWS</span>
+                        <span class="tag">Azure</span>
+                        <span class="tag">Google Cloud Platform (GCP)</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Tools & Methodologies:</h4>
+                    <div class="flex flex-wrap">
+                        <span class="tag">Git</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">Kubernetes</span>
+                        <span class="tag">Jira</span>
+                        <span class="tag">CI/CD</span>
+                        <span class="tag">RESTful APIs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soft Skills Sub-section -->
+            <div>
+                <h3 class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4">Soft Skills</h3>
+                <div class="flex flex-wrap">
+                    <span class="tag">Communication</span>
+                    <span class="tag">Teamwork</span>
+                    <span class="tag">Problem-Solving</span>
+                    <span class="tag">Adaptability</span>
+                    <span class="tag">Leadership</span>
+                    <span class="tag">Time Management</span>
+                    <span class="tag">Critical Thinking</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work Experience Section -->
+        <section class="p-6 sm:p-8 md:p-10">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-gray-800 mb-6">Work Experience</h2>
+
+            <!-- Company 1 -->
+            <div class="mb-8 p-6 bg-gray-50 rounded-lg shadow-sm border border-gray-100">
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Company Name One</h3>
+                <p class="text-md sm:text-lg font-medium text-gray-600 mb-2">Your Role Title | City, State</p>
+                <p class="text-sm text-gray-500 mb-4">Month Year – Month Year (e.g., Jan 2020 – Dec 2023)</p>
+
+                <!-- Optional: Video showcasing work/company culture (Spans full width) -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Company Overview/Project Showcase Video (Optional)</h4>
+                    <div class="relative w-full" style="padding-top: 56.25%;"> <!-- 16:9 Aspect Ratio -->
+                        <iframe
+                            class="absolute top-0 left-0 w-full h-full rounded-md shadow-md"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&modestbranding=1&rel=0"
+                            title="Company 1 Video Showcase"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">
+                        (Optional: Embed a video showcasing your work, a project, or the company culture.
+                        Replace the `src` URL with your video link.)
+                    </p>
+                </div>
+
+                <!-- Two-panel layout for projects within Company 1 -->
+                <div class="md:flex md:space-x-6">
+                    <!-- Left Panel: Skills for Company 1 and its projects -->
+                    <div class="md:w-1/3 p-4 bg-white rounded-lg shadow-sm border border-gray-100 mb-6 md:mb-0">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Skills & Technologies Used:</h4>
+                        <div class="mb-4">
+                            <h5 class="text-md font-semibold text-gray-600 mb-2">Overall Company Skills:</h5>
+                            <div class="flex flex-wrap">
+                                <span class="tag">Enterprise Software</span>
+                                <span class="tag">Cloud Architecture</span>
+                                <span class="tag">Microservices</span>
+                                <span class="tag">DevOps</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="text-md font-semibold text-gray-600 mb-2">Project One Skills:</h5>
+                            <div class="flex flex-wrap">
+                                <span class="tag">React</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">MongoDB</span>
+                                <span class="tag">AWS Lambda</span>
+                                <span class="tag">Full-stack Development</span>
+                                <span class="tag">API Design</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="text-md font-semibold text-gray-600 mb-2">Project Two Skills:</h5>
+                            <div class="flex flex-wrap">
+                                <span class="tag">Python</span>
+                                <span class="tag">Django</span>
+                                <span class="tag">PostgreSQL</span>
+                                <span class="tag">Docker</span>
+                                <span class="tag">Backend Development</span>
+                                <span class="tag">Data Modeling</span>
+                            </div>
+                        </div>
+                        <!-- Add more project-specific skill sections as needed -->
+                    </div>
+
+                    <!-- Right Panel: Project Details, Achievements, Rewards -->
+                    <div class="md:w-2/3 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Project Details & Achievements:</h4>
+
+                        <!-- Project 1.1 Details -->
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h5 class="text-md font-semibold text-gray-800 mb-1">Project Title One</h5>
+                            <p class="text-gray-700 text-sm mb-2">
+                                **Description:** Developed a new feature that streamlined the user onboarding process, reducing
+                                completion time by 30% and improving user retention. Led a team of 3 junior developers.
+                            </p>
+                            <ul class="list-disc list-inside text-gray-700 text-sm mb-2">
+                                <li>**Achievements:**
+                                    <ul>
+                                        <li>Improved user engagement by 15% through intuitive UI/UX design.</li>
+                                        <li>Optimized database queries, leading to a 25% reduction in load times.</li>
+                                        <li>Successfully integrated with third-party payment gateways.</li>
+                                    </ul>
+                                </li>
+                                <li>**Rewards/Recognition:**
+                                    <ul>
+                                        <li>Received "Innovator of the Month" award for Q3 2023.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Project 1.2 Details -->
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h5 class="text-md font-semibold text-gray-800 mb-1">Project Title Two</h5>
+                            <p class="text-gray-700 text-sm mb-2">
+                                **Description:** Designed and implemented a robust data analytics pipeline to process
+                                large datasets, providing actionable insights for the marketing team.
+                            </p>
+                            <ul class="list-disc list-inside text-gray-700 text-sm mb-2">
+                                <li>**Achievements:**
+                                    <ul>
+                                        <li>Reduced data processing time by 50% using optimized algorithms.</li>
+                                        <li>Enabled real-time reporting, empowering faster business decisions.</li>
+                                        <li>Contributed to a 10% increase in targeted ad campaign effectiveness.</li>
+                                    </ul>
+                                </li>
+                                <li>**Rewards/Recognition:**
+                                    <ul>
+                                        <li>Commended by senior leadership for data pipeline efficiency.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Add more project details as needed for Company 1 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company 2 -->
+            <div class="mb-8 p-6 bg-gray-50 rounded-lg shadow-sm border border-gray-100">
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Company Name Two</h3>
+                <p class="text-md sm:text-lg font-medium text-gray-600 mb-2">Previous Role Title | City, State</p>
+                <p class="text-sm text-gray-500 mb-4">Month Year – Month Year (e.g., Jan 2018 – Dec 2019)</p>
+
+                <!-- Optional: Video for Company 2 (Spans full width) -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Company Overview/Project Showcase Video (Optional)</h4>
+                    <div class="relative w-full" style="padding-top: 56.25%;">
+                        <iframe
+                            class="absolute top-0 left-0 w-full h-full rounded-md shadow-md"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&modestbranding=1&rel=0"
+                            title="Company 2 Video Showcase"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                </div>
+
+                <!-- Two-panel layout for projects within Company 2 -->
+                <div class="md:flex md:space-x-6">
+                    <!-- Left Panel: Skills for Company 2 and its projects -->
+                    <div class="md:w-1/3 p-4 bg-white rounded-lg shadow-sm border border-gray-100 mb-6 md:mb-0">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Skills & Technologies Used:</h4>
+                        <div class="mb-4">
+                            <h5 class="text-md font-semibold text-gray-600 mb-2">Overall Company Skills:</h5>
+                            <div class="flex flex-wrap">
+                                <span class="tag">Legacy Systems</span>
+                                <span class="tag">System Integration</span>
+                                <span class="tag">Database Migration</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="text-md font-semibold text-gray-600 mb-2">Project One Skills:</h5>
+                            <div class="flex flex-wrap">
+                                <span class="tag">Java</span>
+                                <span class="tag">Spring Boot</span>
+                                <span class="tag">Azure</span>
+                                <span class="tag">SQL Server</span>
+                                <span class="tag">Cloud Migration</span>
+                                <span class="tag">Enterprise Architecture</span>
+                            </div>
+                        </div>
+                        <!-- Add more project-specific skill sections as needed -->
+                    </div>
+
+                    <!-- Right Panel: Project Details, Achievements, Rewards -->
+                    <div class="md:w-2/3 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Project Details & Achievements:</h4>
+
+                        <!-- Project 2.1 Details -->
+                        <div class="border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h5 class="text-md font-semibold text-gray-800 mb-1">Legacy System Migration</h5>
+                            <p class="text-gray-700 text-sm mb-2">
+                                **Description:** Successfully migrated a critical legacy system to a modern cloud-based architecture,
+                                ensuring zero downtime during the transition and improving scalability.
+                            </p>
+                            <ul class="list-disc list-inside text-gray-700 text-sm mb-2">
+                                <li>**Achievements:**
+                                    <ul>
+                                        <li>Reduced operational costs by 20% post-migration.</li>
+                                        <li>Improved system reliability and uptime to 99.9%.</li>
+                                        <li>Trained team members on new cloud infrastructure.</li>
+                                    </ul>
+                                </li>
+                                <li>**Rewards/Recognition:**
+                                    <ul>
+                                        <li>Received "Excellence in Migration" award.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Add more project details as needed for Company 2 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add more companies following the same structure -->
+
+        </section>
+
+        <!-- Education Section -->
+        <section class="p-6 sm:p-8 md:p-10 border-t border-gray-200">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-gray-800 mb-6">Education</h2>
+
+            <div class="mb-6 p-6 bg-gray-50 rounded-lg shadow-sm border border-gray-100">
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800">University Name</h3>
+                <p class="text-md sm:text-lg font-medium text-gray-600 mb-1">Degree, Major | City, State</p>
+                <p class="text-sm text-gray-500 mb-2">Graduation Month Year (e.g., May 2017)</p>
+                <ul class="list-disc list-inside text-gray-700 text-sm">
+                    <li>Relevant Coursework: Data Structures, Algorithms, Software Engineering, Database Systems</li>
+                    <li>GPA: 3.8/4.0 (Optional)</li>
+                    <li>Awards/Honors: Dean's List (Optional)</li>
+                </ul>
+            </div>
+            <!-- Add more education entries if applicable -->
+        </section>
+
+        <!-- Footer Section -->
+        <footer class="bg-gray-800 text-white text-center p-4 sm:p-6 rounded-b-xl">
+            <p class="text-sm">&copy; 2025 Your Name. All rights reserved.</p>
+            <p class="text-xs mt-1">Built with HTML and Tailwind CSS.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
